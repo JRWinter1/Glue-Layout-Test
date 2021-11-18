@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Glue from "@glue42/desktop";
+import { GlueInitSettings, useGlueInit } from "@glue42/react-hooks";
+import { Glue42} from "@glue42/desktop";
+import {Glue42Web} from "@glue42/web"
+import Workspaces from '@glue42/workspaces-api'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+declare global {
+  interface Window {
+    glue: Glue42.Glue | Glue42Web.API;
+  }
 }
+
+const App = () => {
+  // Example custom configuration for the Glue42 Enterprise library.
+  const settings : GlueInitSettings = {
+      desktop: {
+          config: { 
+            appManager : "full",
+            layouts: "full",
+            displays: true,
+            
+            // libraries: [Workspaces],
+          },
+          factory: Glue,
+      }
+  };
+  window.glue = useGlueInit(settings);
+
+  return <div />;
+};
 
 export default App;
